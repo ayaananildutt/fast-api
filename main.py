@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from pydantic import BaseModel
 
 api = FastAPI()
@@ -36,7 +36,7 @@ def get_chapter(book_id: int, chapter_num: int):
     }
 
 @api.get('/books')
-def list_books(genre: str | None = "all", limit: int | None = 10):
+def list_books(genre: str = Query(default="all", min_length=2), limit: int = Query(default=10)):
     return {
         "genre": genre,
         "limit": limit,
@@ -44,7 +44,7 @@ def list_books(genre: str | None = "all", limit: int | None = 10):
     }
 
 @api.get('/search')
-def search_books(query: str, limit: int | None = 5):
+def search_books(query: str = Query(min_length=2, max_length=50), limit: int = Query(default=5)):
     return {
         "query": query,
         "limit": limit,
