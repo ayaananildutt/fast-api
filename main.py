@@ -27,3 +27,19 @@ def get_chapter(book_id: int, chapter_num: int):
         "chapter" : chapter_num,
         "content" : f"Chapter {chapter_num} of Book #{book_id}"
     }
+
+@api.get('/books')
+def list_books(genre: str | None = "all", limit: int | None = 10):
+    return {
+        "genre": genre,
+        "limit": limit,
+        "books": []
+    }
+
+@api.get('/search')
+def search_books(query: str, limit: int | None = 5):
+    return {
+        "query": query,
+        "limit": limit,
+        "results": []
+    }
