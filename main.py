@@ -84,4 +84,3 @@ def add_review(review: Review, book_id: int = Path(ge=1)):
     }
 
 
-print("branch 1")
