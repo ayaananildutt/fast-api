@@ -15,6 +15,11 @@ class BookFilter(BaseModel):
     limit: int = 10
     year: int | None = None
 
+class Review(BaseModel):
+    reviewer: str
+    comment: str
+    rating: int
+
 @api.get('/')
 def root():
     return {"message" : "Welcome to the Book Club API"}
@@ -63,4 +68,17 @@ def create_book(book: Book):
     return {
         "message": "Book added",
         "book": book
+    }
+
+@api.put('/books/{book_id}')
+def update_book(book: Book, book_id: int = Path(ge=1)):
+    return {"message" : f"Book #{book_id}",
+        "book" : book
+    }
+
+
+@api.post('/books/{book_id}/review')
+def add_review(review: Review, book_id: int = Path(ge=1)):
+    return {"book_id" : book_id,
+        "review" : review
     }
