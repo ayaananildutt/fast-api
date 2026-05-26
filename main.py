@@ -1,14 +1,14 @@
 from fastapi import FastAPI, Query, Path
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Annotated
 
 api = FastAPI()
 
 class Book(BaseModel):
-    title: str
-    author: str
-    year: int
-    genre: str
+    title: str = Field(min_length=1, max_length=100)
+    author: str = Field(min_length=1, max_length=100)
+    year: int = Field(ge=1000, le=2025)
+    genre: str = Field(min_length=1, max_length=50)
 
 class BookFilter(BaseModel):
     genre: str = "all"
@@ -16,9 +16,9 @@ class BookFilter(BaseModel):
     year: int | None = None
 
 class Review(BaseModel):
-    reviewer: str
-    comment: str
-    rating: int
+    reviewer: str = Field(min_length=1, max_length=100)
+    comment: str = Field(min_length=1, max_length=500)
+    rating: int = Field(ge=1, le=5)
 
 @api.get('/')
 def root():
