@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Query, Path
 from pydantic import BaseModel
+from typing import Annotated
 
 api = FastAPI()
 
@@ -8,6 +9,11 @@ class Book(BaseModel):
     author: str
     year: int
     genre: str
+
+class BookFilter(BaseModel):
+    genre: str = "all"
+    limit: int = 10
+    year: int | None = None
 
 @api.get('/')
 def root():
@@ -36,10 +42,11 @@ def get_chapter(book_id: int = Path(ge=1), chapter_num: int = Path(ge=1, le=100)
     }
 
 @api.get('/books')
-def list_books(genre: str = Query(default="all", min_length=2), limit: int = Query(default=10)):
+def list_books(filters: Annotated[BookFilter, Query()]):
     return {
-        "genre": genre,
-        "limit": limit,
+        "genre": filters.genre,
+        "limit": filters.limit,
+        "year": filters.year,
         "books": []
     }
 
