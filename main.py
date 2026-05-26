@@ -12,3 +12,18 @@ def status():
         "status" : "running",
         "api" : "Book Club"
     }
+
+@api.get('/books/{book_id}')
+def get_book(book_id: int):
+    return {
+        "book_id": book_id,
+        "title": f"Book #{book_id}"
+    }
+
+@api.get('/books/{book_id}/chapter/{chapter_num}')
+def get_chapter(book_id: int, chapter_num: int):
+    return {
+        "book_id" : book_id,
+        "chapter" : chapter_num,
+        "content" : f"Chapter {chapter_num} of Book #{book_id}"
+    }
