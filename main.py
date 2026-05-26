@@ -55,10 +55,5 @@ def search_books(query: str, limit: int | None = 5):
 def create_book(book: Book):
     return {
         "message": "Book added",
-        "book": {
-            "title" : book.title,
-            "author" : book.author,
-            "year" : book.year,
-            "genre" : book.genre
-        }
+        "book": book
     }
