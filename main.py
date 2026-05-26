@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Path
 from pydantic import BaseModel
 
 api = FastAPI()
@@ -21,14 +21,14 @@ def status():
     }
 
 @api.get('/books/{book_id}')
-def get_book(book_id: int):
+def get_book(book_id: int = Path(ge=1)):
     return {
         "book_id": book_id,
         "title": f"Book #{book_id}"
     }
 
 @api.get('/books/{book_id}/chapter/{chapter_num}')
-def get_chapter(book_id: int, chapter_num: int):
+def get_chapter(book_id: int = Path(ge=1), chapter_num: int = Path(ge=1, le=100)):
     return {
         "book_id" : book_id,
         "chapter" : chapter_num,
