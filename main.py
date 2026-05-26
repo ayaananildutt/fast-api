@@ -1,6 +1,13 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 api = FastAPI()
+
+class Book(BaseModel):
+    title: str
+    author: str
+    year: int
+    genre: str
 
 @api.get('/')
 def root():
@@ -42,4 +49,16 @@ def search_books(query: str, limit: int | None = 5):
         "query": query,
         "limit": limit,
         "results": []
+    }
+
+@api.post('/books')
+def create_book(book: Book):
+    return {
+        "message": "Book added",
+        "book": {
+            "title" : book.title,
+            "author" : book.author,
+            "year" : book.year,
+            "genre" : book.genre
+        }
     }
